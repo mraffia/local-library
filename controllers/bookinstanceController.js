@@ -3,7 +3,7 @@ const Book = require("../models/book");
 const { body, validationResult } = require("express-validator");
 
 // Display list of all BookInstances.
-exports.bookinstance_list = (req, res) => {
+exports.bookinstance_list = (req, res, next) => {
   BookInstance.find()
     .populate("book")
     .exec(function (err, list_bookinstances) {
@@ -19,7 +19,7 @@ exports.bookinstance_list = (req, res) => {
 };
 
 // Display detail page for a specific BookInstance.
-exports.bookinstance_detail = (req, res) => {
+exports.bookinstance_detail = (req, res, next) => {
   BookInstance.findById(req.params.id)
     .populate("book")
     .exec((err, bookinstance) => {
@@ -112,14 +112,44 @@ exports.bookinstance_create_post = [
 ];
 
 // Display BookInstance delete form on GET.
-exports.bookinstance_delete_get = (req, res) => {
-  res.send("NOT IMPLEMENTED: BookInstance delete GET");
+exports.bookinstance_delete_get = (req, res, next) => {
+  BookInstance.findById(req.params.id)
+    .populate("book")
+    .exec((err, bookinstance) => {
+      if (err) {
+        return next(err);
+      }
+      if (bookinstance == null) {
+        // No results.
+        res.redirect("/catalog/bookinstances");
+      }
+      // Successful, so render.
+      res.render("bookinstance_delete", {
+        title: 'Delete Book Instance',
+        bookinstance,
+      });
+    });
 };
 
 // Handle BookInstance delete on POST.
-exports.bookinstance_delete_post = (req, res) => {
-  res.send("NOT IMPLEMENTED: BookInstance delete POST");
+exports.bookinstance_delete_post = (req, res, next) => {
+  BookInstance.findById(req.body.bookinstanceid)
+    .populate("book")
+    .exec((err, bookinstance) => {
+      if (err) {
+        return next(err);
+      }
+
+      BookInstance.findByIdAndRemove(req.body.bookinstanceid, (err) => {
+        if (err) {
+          return next(err);
+        }
+        // Success - go to book instances list
+        res.redirect("/catalog/bookinstances");
+      });
+    });
 };
+
 
 // Display BookInstance update form on GET.
 exports.bookinstance_update_get = (req, res) => {
