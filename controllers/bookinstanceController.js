@@ -92,6 +92,7 @@ exports.bookinstance_create_post = [
           title: "Create BookInstance",
           book_list: books,
           selected_book: bookinstance.book._id,
+          selected_status: bookinstance.status,
           errors: errors.array(),
           bookinstance,
         });
