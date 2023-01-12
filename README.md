@@ -1,5 +1,5 @@
 # local-library
-Local Library project from MDN Express (Node) tutorial.
+Local Library project from MDN Web Docs Express (Node.js) tutorial.
 
 ### Project Website
 
