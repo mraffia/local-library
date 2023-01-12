@@ -6,7 +6,7 @@ const { body, validationResult } = require("express-validator");
 
 const async = require("async");
 
-exports.index = (req, res) => {
+exports.index = (req, res, next) => {
   async.parallel(
     {
       book_count(callback) {
@@ -36,7 +36,7 @@ exports.index = (req, res) => {
 };
 
 // Display list of all books.
-exports.book_list = (req, res) => {
+exports.book_list = (req, res, next) => {
   Book.find({}, "title author")
     .sort({ title: 1 })
     .populate("author")
@@ -50,7 +50,7 @@ exports.book_list = (req, res) => {
 };
 
 // Display detail page for a specific book.
-exports.book_detail = (req, res) => {
+exports.book_detail = (req, res, next) => {
   async.parallel(
     {
       book(callback) {

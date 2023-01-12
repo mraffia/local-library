@@ -4,7 +4,7 @@ const Book = require("../models/book");
 const { body, validationResult } = require("express-validator");
 
 // Display list of all Authors.
-exports.author_list = (req, res) => {
+exports.author_list = (req, res, next) => {
   Author.find()
     .sort([["family_name", "ascending"]])
     .exec(function (err, list_authors) {
@@ -20,7 +20,7 @@ exports.author_list = (req, res) => {
 };
 
 // Display detail page for a specific Author.
-exports.author_detail = (req, res) => {
+exports.author_detail = (req, res, next) => {
   async.parallel(
     {
       author(callback) {
@@ -52,7 +52,7 @@ exports.author_detail = (req, res) => {
 };
 
 // Display Author create form on GET.
-exports.author_create_get = (req, res) => {
+exports.author_create_get = (req, res, next) => {
   res.render("author_form", { title: "Create Author" });
 };
 

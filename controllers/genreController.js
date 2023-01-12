@@ -4,7 +4,7 @@ const async = require("async");
 const { body, validationResult } = require("express-validator");
 
 // Display list of all Genre.
-exports.genre_list = (req, res) => {
+exports.genre_list = (req, res, next) => {
   Genre.find()
     .sort([["name", "ascending"]])
     .exec(function (err, list_genres) {
@@ -20,7 +20,7 @@ exports.genre_list = (req, res) => {
 };
 
 // Display detail page for a specific Genre.
-exports.genre_detail = (req, res) => {
+exports.genre_detail = (req, res, next) => {
   async.parallel(
     {
       genre(callback) {
@@ -52,7 +52,7 @@ exports.genre_detail = (req, res) => {
 };
 
 // Display Genre create form on GET.
-exports.genre_create_get = (req, res) => {
+exports.genre_create_get = (req, res, next) => {
   res.render("genre_form", { title: "Create Genre" });
 };
 
