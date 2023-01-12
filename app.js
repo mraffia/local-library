@@ -8,7 +8,13 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const catalogRouter = require("./routes/catalog");
 
+const compression = require("compression");
+const helmet = require("helmet");
+
 const app = express();
+
+app.use(compression()); // Compress all routes
+app.use(helmet());
 
 // Set up mongoose connection
 const mongoose = require("mongoose");
