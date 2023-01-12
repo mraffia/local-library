@@ -236,5 +236,5 @@ exports.genre_update_post = (req, res, next) => {
         }
       });
     }
-  },
+  }
 };
